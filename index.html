@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recepti</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap");
+
+    * {
+      font-family: "Roboto", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: rgb(245, 245, 245);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      background-color: #ffffff;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+      background-color: #989898;
+    }
+
+    body {
+      background-color: rgb(240, 240, 240);
+    }
+
+    div.container {
+      flex-direction: column;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    div.card {
+      transition: opacity 0.1s ease-out;
+      background-color: white;
+      width: 1024px;
+      height: 300px;
+      display: flex;
+      justify-content: flex-start;
+      border-radius: 25px;
+      box-shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    div.card.fade-out {
+      opacity: 0;
+    }
+
+    img {
+      height: 100%;
+      box-shadow: rgba(0, 0, 0, 0.1);
+      border-radius: 25px;
+
+      aspect-ratio: 1.5;
+      object-fit: cover;
+
+    }
+
+    div.navbar {
+      background-color: rgb(50, 50, 50);
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+      top: 0px;
+      padding: 15px;
+
+    }
+
+    div.navbar-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 1024px;
+
+    }
+
+    div.navbar-content h1 {
+      color: white;
+    }
+
+    button {
+      background-color: white;
+      padding: 10px;
+      border-radius: 25px;
+      border: 1;
+      font-weight: bold;
+      cursor: pointer;
+      width: 150px;
+
+    }
+
+    input {
+      padding: 7px;
+      border-radius: 25px;
+      border: 1px solid rgb(170, 170, 170)
+    }
+
+    div.modal-background {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(50, 50, 50, 0.5);
+      z-index: 10;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    div.modal {
+      padding: 10px;
+      background-color: white;
+      border-radius: 25px;
+      width: 1024px;
+    }
+
+    div.modal-content {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+    }
+
+    div.modal-content input {
+      margin-bottom: 10px;
+    }
+
+    div.header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+
+    div.header span {
+      cursor: pointer;
+    }
+
+    div.card-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 15px;
+    }
+
+    .card .notes {
+      height: 100%;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="modal-background" id="modal">
+    <div class="modal">
+      <div class="header">
+        <h1>Dodaj recept</h1>
+        <span onclick="closeModal()">X</span>
+      </div>
+      <form id="add-recepie">
+        <div class="modal-content">
+          <label> Naziv recepta</label>
+          <input name="naziv" required minlength="5" placeholder="Naziv recepta" />
+          <label>Povezava do slike</label>
+          <input name="link" required minlength="5" placeholder="Povezava do slike" />
+          <label>Opis</label>
+          <input name="notes" required minlength="5" placeholder="Opis" />
+        </div>
+        <button>Dodaj</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="navbar-content">
+      <h1>RECEPTI.org</h1>
+      <div>
+        <button onclick="openModal()">DODAJ RECEPT</button>
+        <input id="search" placeholder="Išči..." />
+      </div>
+    </div>
+  </div>
+  <div class="container" id="list">
+    <div class="card">
+      <img src="https://fitkuhinja.si/wp-content/uploads/2016/08/lchf-palacinke-net.jpg" />
+      <div class="card-content">
+        <div class="header">
+          <h1>PALAČINKE</h1>
+          <span onclick="deleteRecepie(this)">X</span>
+        </div>
+        <div class="notes">
+          <p>To je osnovni recept za velike in tanke LCHF palačinke brez moke in dodanega sladkorja. Vsebujejo minimalno
+            ogljikovih hidratov, so mehke in dobrega okusa, predvsem pa se ne trgajo pri obračanju, kar je pri LCHF
+            palačinkah večinoma redkost.</p>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="card">
+      <img src="https://fitkuhinja.si/wp-content/uploads/2016/08/lchf-palacinke-net.jpg" />
+      <div class="card-content">
+        <div class="header">
+          <h1>PALAČINKE</h1>
+          <span onclick="deleteRecepie(this)">X</span>
+        </div>
+        <div class="notes">
+          <p>To je osnovni recept za velike in tanke LCHF palačinke brez moke in dodanega sladkorja. Vsebujejo minimalno
+            ogljikovih hidratov, so mehke in dobrega okusa, predvsem pa se ne trgajo pri obračanju, kar je pri LCHF
+            palačinkah večinoma redkost.</p>
+        </div>
+      </div>
+    </div>
+</body>
+
+<script>
+  var iskanje = document.getElementById("search");
+  var dodajForm = document.getElementById('add-recepie');
+  var modal = document.getElementById("modal");
+  var list = document.getElementById("list");
+
+  window.addEventListener("load" , renderList);
+  iskanje.addEventListener('keyup', function (event) {
+    var vrednostiskanja = event.target.value.toLowerCase();
+    var recepti = document.getElementsByClassName('card')
+    for (var recept of recepti) {
+      var nazivRecepta = recept.getElementsByTagName("h1")[0].innerHTML.toLowerCase();
+      var prikazi = nazivRecepta.includes(vrednostiskanja);
+      if (prikazi) {
+        recept.style.display = "flex";
+      } else {
+        recept.style.display = "none"
+      }
+    }
+
+
+  });
+  dodajForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var naziv = event.srcElement.elements["naziv"].value;
+    var link = event.srcElement.elements["link"].value;
+    var notes = event.srcElement.elements["notes"].value;
+
+    list.innerHTML += `
+  </div>
+    <div class="card">
+      <img src="${link}" />
+      <div class="card-content">
+        <div class="header">
+          <h1>${naziv}</h1>
+          <span onclick="deleteRecepie(this)">X</span>
+        </div>
+        <div class="notes">
+          ${notes}
+        </div>
+      </div>
+    </div>
+    `;
+
+    event.srcElement.reset();
+    closeModal();
+    saveList();
+  });
+
+  function deleteRecepie(element) {
+    var potrdi = confirm("Ali ste prepričani da želite izbrisati recept")
+    if (potrdi) {
+      var kartica = element.parentNode.parentNode.parentNode;
+      kartica.classList.add('fade-out');
+
+      setTimeout(function () {
+        kartica.remove();
+        saveList();
+      }, 200)
+    }
+  }
+
+  function openModal() {
+    modal.style.display = "flex";
+  }
+
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  function saveList () {
+    localStorage.setItem("list", list.innerHTML);
+  }
+
+  function renderList () {
+    var novList = localStorage.getItem("list");
+    if (novList) {
+      list.innerHTML = novList;
+      var recepti = document.getElementsByClassName('card')
+      for (var recept of recepti) {
+        recept.style.display = "flex"
+      }
+    }
+  }
+</script>
+
+</html>
